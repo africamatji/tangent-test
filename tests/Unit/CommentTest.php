@@ -7,9 +7,6 @@ use Tests\TestCase;
 
 class CommentTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_can_create_comment(): void
     {
         $count = Comment::all()->count();

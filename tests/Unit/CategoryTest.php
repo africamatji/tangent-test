@@ -7,9 +7,6 @@ use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_can_create_category(): void
     {
         $count = Category::all()->count();

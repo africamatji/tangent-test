@@ -7,9 +7,6 @@ use Tests\TestCase;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
     public function test_can_create_user(): void
     {
         $count = User::all()->count();

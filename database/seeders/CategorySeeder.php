@@ -9,9 +9,6 @@ use Symfony\Component\Validator\Constraints\Count;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         Category::factory()->count(1)->create();
