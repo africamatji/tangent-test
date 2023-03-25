@@ -23,23 +23,23 @@ class PostTest extends TestCase
 
     public function test_endpoint_create_post(): void
     {
-        $request = [
+        $requestData = [
             'title' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
             'user_id' => User::first()->id,
             'category_id' => Category::first()->id,
         ];
         //validate request
-        $request = new CreatePostRequest($request);
+        $request = new CreatePostRequest($requestData);
         $validator = Validator::make($request->all(), $request->rules());
         $this->assertTrue($validator->passes());
 
-        $response = $this->post('/api/posts', $request);
+        $response = $this->post('/api/posts', $requestData);
         $response->assertJson(['message' => 'successful']);
         //check response
         $response->assertStatus(200);
         //check if record was created
-        $this->assertDatabaseHas('posts', $request);
+        $this->assertDatabaseHas('posts', $requestData);
     }
 
     public function test_endpoint_get_posts(): void
