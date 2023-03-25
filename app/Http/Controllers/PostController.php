@@ -32,7 +32,7 @@ class PostController extends Controller
 
     public function find(Request $request): JsonResponse
     {
-        $post = Post::with(['comments', 'category', 'user'])->find($request->id);
+        $post = Post::with(['comments', 'category', 'user'])->find($request->id)->first();
 
         return response()->json([
             'message' => 'successful',
@@ -44,11 +44,11 @@ class PostController extends Controller
     {
         $post = Post::find($request->id);
         if($post) {
-            $post->delete();
             $post->comments()->delete();
+            $post->delete();
         }
 
-        return response()->json([]);
+        return response()->json(['message' => 'successful']);
     }
 
     public function update(Request $request): JsonResponse
