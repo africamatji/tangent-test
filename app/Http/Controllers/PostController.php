@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -51,9 +52,14 @@ class PostController extends Controller
         return response()->json(['message' => 'successful']);
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(UpdatePostRequest $request, $id): JsonResponse
     {
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
 
-        return response()->json([]);
+        return response()->json([
+            'message' => 'successful',
+            'post' => $post
+        ]);
     }
 }
