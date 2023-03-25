@@ -9,59 +9,59 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class PostTest extends TestCase
 {
-    public array $requestCreatePost = [];
-    public array $requestAllPosts = [];
+    protected $faker;
 
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->requestCreatePost = [
-            'title' => 'Title goes here',
-            'body' => 'Lorem ipsum, body goes here too :)',
-            'user_id' => User::first()->id,
-            'category_id' => Category::first()->id,
-        ];
-        $this->requestAllPosts = [
-            [
-                'title' => 'First title foes here',
-                'body' => 'First body goes here too :)',
-                'user_id' => User::first()->id,
-                'category_id' => Category::first()->id,
-            ],
-            [
-                'title' => 'Second title goes here',
-                'body' => 'Second body goes here too :)',
-                'user_id' => User::first()->id,
-                'category_id' => Category::first()->id,
-            ],
-        ];
+        $this->faker = Faker::create();
     }
 
     public function test_endpoint_create_post(): void
     {
+        $requestCreatePost = [
+            'title' => $this->faker->sentence,
+            'body' => $this->faker->paragraph,
+            'user_id' => User::first()->id,
+            'category_id' => Category::first()->id,
+        ];
         //validate request
-        $request = new CreatePostRequest($this->requestCreatePost);
+        $request = new CreatePostRequest($requestCreatePost);
         $validator = Validator::make($request->all(), $request->rules());
         $this->assertTrue($validator->passes());
 
-        $response = $this->post('/api/posts', $this->requestCreatePost);
+        $response = $this->post('/api/posts', $requestCreatePost);
         $response->assertJson(['message' => 'successful']);
         //check response
         $response->assertStatus(200);
         //check if record was created
-        $this->assertDatabaseHas('posts', $this->requestCreatePost);
+        $this->assertDatabaseHas('posts', $requestCreatePost);
     }
 
     public function test_endpoint_get_posts(): void
     {
+        $requestAllPosts = [
+            [
+                'title' => $this->faker->sentence,
+                'body' => $this->faker->paragraph,
+                'user_id' => User::first()->id,
+                'category_id' => Category::first()->id,
+            ],
+            [
+                'title' => $this->faker->sentence,
+                'body' => $this->faker->paragraph,
+                'user_id' => User::first()->id,
+                'category_id' => Category::first()->id,
+            ],
+        ];
         //remove existing posts
         $this->truncatePosts();
         //create sample posts
-        foreach ($this->requestAllPosts as $post) {
+        foreach ($requestAllPosts as $post) {
             Post::create($post);
         }
         //send request
@@ -69,7 +69,7 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'message' => 'successful',
-            'posts' => $this->requestAllPosts
+            'posts' => $requestAllPosts
         ]);
     }
 
