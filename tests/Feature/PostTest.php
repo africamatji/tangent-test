@@ -75,8 +75,16 @@ class PostTest extends TestCase
 
     public function test_endpoint_find_post(): void
     {
-        $response = $this->get('/api/posts/1');
+        $id = 1;
+        $post = Post::with(['comments', 'category', 'user'])->find($id)->first();
+        $response = $this->get("/api/posts/{$id}");
         $response->assertStatus(200);
+        $response->assertJson([
+            'message' => 'successful',
+            'posts' => [
+                'id' => $post->id,
+            ],
+        ]);
     }
 
     public function truncatePosts(): void
