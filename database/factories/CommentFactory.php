@@ -13,7 +13,9 @@ class CommentFactory extends Factory
         return [
             'body' => fake()->sentence(),
             'author_name' => fake()->firstName(),
-            'post_id' => Post::factory(),
+            'post_id' => function () {
+                return Post::inRandomOrder()->first()->id;
+            },
             'created_at' => fake()->dateTime(),
             'updated_at' => fake()->dateTime(),
         ];
