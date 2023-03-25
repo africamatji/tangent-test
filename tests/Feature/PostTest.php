@@ -23,28 +23,28 @@ class PostTest extends TestCase
 
     public function test_endpoint_create_post(): void
     {
-        $requestCreatePost = [
+        $request = [
             'title' => $this->faker->sentence,
             'body' => $this->faker->paragraph,
             'user_id' => User::first()->id,
             'category_id' => Category::first()->id,
         ];
         //validate request
-        $request = new CreatePostRequest($requestCreatePost);
+        $request = new CreatePostRequest($request);
         $validator = Validator::make($request->all(), $request->rules());
         $this->assertTrue($validator->passes());
 
-        $response = $this->post('/api/posts', $requestCreatePost);
+        $response = $this->post('/api/posts', $request);
         $response->assertJson(['message' => 'successful']);
         //check response
         $response->assertStatus(200);
         //check if record was created
-        $this->assertDatabaseHas('posts', $requestCreatePost);
+        $this->assertDatabaseHas('posts', $request);
     }
 
     public function test_endpoint_get_posts(): void
     {
-        $requestAllPosts = [
+        $request = [
             [
                 'title' => $this->faker->sentence,
                 'body' => $this->faker->paragraph,
@@ -61,7 +61,7 @@ class PostTest extends TestCase
         //remove existing posts
         $this->truncatePosts();
         //create sample posts
-        foreach ($requestAllPosts as $post) {
+        foreach ($request as $post) {
             Post::create($post);
         }
         //send request
@@ -69,7 +69,7 @@ class PostTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson([
             'message' => 'successful',
-            'posts' => $requestAllPosts
+            'posts' => $request
         ]);
     }
 
@@ -94,6 +94,25 @@ class PostTest extends TestCase
         $posts = Post::find($id);
         $this->assertNull($posts);
         $response->assertStatus(200);
+    }
+
+    public function test_endpoint_update_post(): void
+    {
+        $request = [
+            'title' => 'updated ' . $this->faker->sentence,
+            'body' => 'updated ' . $this->faker->paragraph,
+        ];
+        $id = Post::inRandomOrder()->first()->id;
+        $response = $this->put("/api/posts/{$id}", $request);
+        $post = Post::find($id);
+        $response->assertStatus(200);
+        $response->assertJson([
+            'message' => 'successful',
+            'post' => [
+                'title' => $post->title,
+                'body' => $post->body,
+            ],
+        ]);
     }
 
     public function truncatePosts(): void
