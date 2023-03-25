@@ -13,7 +13,7 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->words(3, true),
-            'body' => fake()->sentence(),
+            'body' => fake()->paragraph(),
             'user_id' => function () {
                 return User::inRandomOrder()->first()->id;
             },
