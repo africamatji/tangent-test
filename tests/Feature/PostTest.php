@@ -75,7 +75,7 @@ class PostTest extends TestCase
 
     public function test_endpoint_find_post(): void
     {
-        $id = 1;
+        $id = Post::inRandomOrder()->first()->id;
         $post = Post::with(['comments', 'category', 'user'])->find($id)->first();
         $response = $this->get("/api/posts/{$id}");
         $response->assertStatus(200);
@@ -85,6 +85,15 @@ class PostTest extends TestCase
                 'id' => $post->id,
             ],
         ]);
+    }
+
+    public function test_endpoint_delete_post(): void
+    {
+        $id = Post::inRandomOrder()->first()->id;
+        $response = $this->delete("/api/posts/{$id}");
+        $posts = Post::find($id);
+        $this->assertNull($posts);
+        $response->assertStatus(200);
     }
 
     public function truncatePosts(): void
