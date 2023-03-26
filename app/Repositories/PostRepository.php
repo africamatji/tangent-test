@@ -23,7 +23,7 @@ class PostRepository implements PostRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): Post
     {
         $post = $this->model->findOrFail($id);
         $post->update($data);
@@ -31,7 +31,7 @@ class PostRepository implements PostRepositoryInterface
         return $post;
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $post = $this->model->find($id);
         if($post) {

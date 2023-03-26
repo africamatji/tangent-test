@@ -2,16 +2,19 @@
 
 namespace App\Repositories;
 
+use App\Models\Post;
+use Illuminate\Support\Collection;
+
 interface PostRepositoryInterface
 {
-    public function find(int $id);
+    public function find(int $id): Post;
 
-    public function create(array $data);
+    public function create(array $data): Post;
 
-    public function update(int $id, array $data);
+    public function update(int $id, array $data): Post;
 
-    public function delete(int $id);
+    public function delete(int $id): void;
 
-    public function all();
+    public function all(): Collection;
 
 }
