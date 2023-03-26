@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface PostRepositoryInterface
 {
-    public function find(int $id): Post;
+    public function find(int $id): Collection | Post;
 
     public function create(array $data): Post;
 

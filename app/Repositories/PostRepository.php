@@ -13,9 +13,9 @@ class PostRepository implements PostRepositoryInterface
         $this->model = $model;
     }
 
-    public function find(int $id): Post
+    public function find(int $id): Collection | Post
     {
-        return $this->model->with(['comments', 'category', 'user'])->find($id)->first();
+        return $this->model->with(['comments', 'category', 'user'])->find($id);
     }
 
     public function create(array $data): Post
@@ -42,6 +42,6 @@ class PostRepository implements PostRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->all();
+        return $this->model->with(['comments', 'category', 'user'])->get();
     }
 }
