@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Gateways\LogGateway;
 
@@ -32,7 +33,12 @@ class LogApiMiddleware
             'data' => json_encode($request->all()),
             'content' => $response->getContent()
         ];
-        $this->logGateway->log($logData);
+
+        try {
+            $this->logGateway->log($logData);
+        }catch (\Exception $e) {
+            Log::error('Error logging api req and res: ' . $e->getMessage());
+        }
 
         return $response;
     }
