@@ -2,18 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Repositories\PostRepository;
 
 class PostController extends Controller
 {
+    public PostRepository $postRepository;
+
+    public function __construct(PostRepository $postRepository)
+    {
+        $this->postRepository = $postRepository;
+    }
+
+    public function find(Request $request): JsonResponse
+    {
+        $post = $this->postRepository->find($request->id);
+
+        return response()->json([
+            'message' => 'successful',
+            'posts' => $post
+        ]);
+    }
 
     public function create(CreatePostRequest $request): JsonResponse
     {
-        $post = Post::create($request->all());
+        $post = $this->postRepository->create($request->all());
 
         return response()->json([
             'message' => 'successful',
@@ -23,7 +39,7 @@ class PostController extends Controller
 
     public function all(): JsonResponse
     {
-        $posts = Post::all();
+        $posts = $this->postRepository->all();
 
         return response()->json([
             'message' => 'successful',
@@ -31,31 +47,16 @@ class PostController extends Controller
         ]);
     }
 
-    public function find(Request $request): JsonResponse
-    {
-        $post = Post::with(['comments', 'category', 'user'])->find($request->id)->first();
-
-        return response()->json([
-            'message' => 'successful',
-            'posts' => $post
-        ]);
-    }
-
     public function delete(Request $request): JsonResponse
     {
-        $post = Post::find($request->id);
-        if($post) {
-            $post->comments()->delete();
-            $post->delete();
-        }
+        $this->postRepository->delete($request->id);
 
         return response()->json(['message' => 'successful']);
     }
 
     public function update(UpdatePostRequest $request, $id): JsonResponse
     {
-        $post = Post::findOrFail($id);
-        $post->update($request->all());
+        $post = $this->postRepository->update($id, $request->all());
 
         return response()->json([
             'message' => 'successful',

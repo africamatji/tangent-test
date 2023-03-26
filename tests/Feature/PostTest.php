@@ -42,7 +42,7 @@ class PostTest extends TestCase
         $this->assertDatabaseHas('posts', $requestData);
     }
 
-    public function test_endpoint_get_posts(): void
+    public function test_endpoint_all_posts(): void
     {
         $request = [
             [
