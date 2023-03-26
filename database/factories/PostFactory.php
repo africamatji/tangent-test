@@ -13,8 +13,10 @@ class PostFactory extends Factory
     {
         return [
             'title' => fake()->words(3, true),
-            'body' => fake()->sentence(),
-            'user_id' => User::factory(),
+            'body' => fake()->paragraph(),
+            'user_id' => function () {
+                return User::inRandomOrder()->first()->id;
+            },
             'category_id' => Category::first()->id,
             'created_at' => fake()->dateTime(),
             'updated_at' => fake()->dateTime(),
