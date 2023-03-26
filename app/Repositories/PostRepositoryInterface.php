@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 interface PostRepositoryInterface
 {
-    public function find(int $id): Collection | Post;
+    public function find(int $id): Collection|Post;
 
     public function create(array $data): Post;
 
@@ -16,5 +16,7 @@ interface PostRepositoryInterface
     public function delete(int $id): void;
 
     public function all(): Collection;
+
+    public function findByUser(int $userId): Collection|Post;
 
 }

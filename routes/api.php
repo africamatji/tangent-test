@@ -24,3 +24,4 @@ Route::get('/posts', [PostController::class, 'all']);
 Route::get('/posts/{id}', [PostController::class, 'find']);
 Route::put('/posts/{id}', [PostController::class, 'update']);
 Route::delete('/posts/{id}', [PostController::class, 'delete']);
+Route::get('/posts/user/{id}', [PostController::class, 'findByUser']);
