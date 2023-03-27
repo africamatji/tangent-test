@@ -7,7 +7,7 @@ After cloning the project, navigate into the project directory and run composer 
 `cd tangent-test`
 `composer install`
 
- ### Database
+ ### 1. Database
  
   - Create .env file byt copying contents of `env.example` file
 
@@ -23,14 +23,14 @@ After cloning the project, navigate into the project directory and run composer 
 
   `php artisan db:seed`
   
-  #### Unit tests
+  ### 2. Unit tests
   
   - Run all tests
 
 `php artisan test`
 
 
-  #### Run the application
+  ### 3. Run the application
 
   - Serve the application locally.
   
