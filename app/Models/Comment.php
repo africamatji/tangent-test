@@ -17,6 +17,7 @@ class Comment extends Model
         'author_name',
         'post_id'
     ];
+    protected $hidden = ['id'];
 
     protected function post(): BelongsTo
     {
