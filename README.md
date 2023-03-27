@@ -22,6 +22,13 @@ After cloning the project, navigate into the project directory and run composer 
   - Seed the database 
 
   `php artisan db:seed`
+  
+  #### Unit tests
+  
+  - Run all tests
+
+`php artisan test`
+
 
   #### Run the application
 
