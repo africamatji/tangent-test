@@ -13,9 +13,9 @@ class PostRepository implements PostRepositoryInterface
         $this->model = $model;
     }
 
-    public function find(int $id): Post
+    public function find(int $id): Collection|Post
     {
-        return $this->model->with(['comments', 'category', 'user'])->find($id)->first();
+        return $this->model->with(['comments', 'category', 'user'])->find($id);
     }
 
     public function create(array $data): Post
@@ -23,7 +23,7 @@ class PostRepository implements PostRepositoryInterface
         return $this->model->create($data);
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): Post
     {
         $post = $this->model->findOrFail($id);
         $post->update($data);
@@ -31,7 +31,7 @@ class PostRepository implements PostRepositoryInterface
         return $post;
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         $post = $this->model->find($id);
         if($post) {
@@ -42,6 +42,11 @@ class PostRepository implements PostRepositoryInterface
 
     public function all(): Collection
     {
-        return $this->model->all();
+        return $this->model->with(['comments', 'category', 'user'])->get();
+    }
+
+    public function findByUser(int $userId): Collection|Post
+    {
+        return $this->model->with(['comments', 'category', 'user'])->where('user_id', $userId)->get();
     }
 }

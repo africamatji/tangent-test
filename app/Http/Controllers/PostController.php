@@ -63,4 +63,14 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+    public function findByUser(Request $request): JsonResponse
+    {
+        $post = $this->postRepository->findByUser($request->id);
+
+        return response()->json([
+            'message' => 'successful',
+            'post' => $post
+        ]);
+    }
 }
