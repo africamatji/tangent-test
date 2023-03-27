@@ -2,11 +2,12 @@
  
 ## Set up instruction
 
-After cloning the project run composer toinstall the packages
+After cloning the project, navigate into the project directory and run composer to install all the required packages
 
+`cd tangent-test`
 `composer install`
 
- #### Database
+ ### Database
  
   - Create .env file byt copying contents of `env.example` file
 
