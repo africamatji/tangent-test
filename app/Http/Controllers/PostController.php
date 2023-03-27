@@ -8,6 +8,12 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Repositories\PostRepository;
 
+/**
+ * @OA\Tag(
+ *     name="posts",
+ *     description="Operations about posts"
+ * )
+ */
 class PostController extends Controller
 {
     public PostRepository $postRepository;
@@ -17,6 +23,38 @@ class PostController extends Controller
         $this->postRepository = $postRepository;
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/posts/{id}",
+     *     tags={"Posts"},
+     *     summary="Get post by ID",
+     *     description="Returns a single post",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of post to return",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="successful"
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Post not found"
+     *     )
+     * )
+     */
     public function find(Request $request): JsonResponse
     {
         $post = $this->postRepository->find($request->id);
