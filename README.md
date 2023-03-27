@@ -38,8 +38,11 @@ After cloning the project, navigate into the project directory and run composer 
 
   - Open the link : [localhost](http://localhost:8000/)
 
-  - Swagger API documentation.
-   //TODO
+  ### 4. Swagger API documentation.
+
+  `php artisan l5-swagger:generate`
+
+  - Documentation link : [link to documentation]([http://localhost:8000/](http://localhost:8000/api/documentation))
 
 ## License
 
