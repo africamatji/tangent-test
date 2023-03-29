@@ -42,7 +42,7 @@ After cloning the project, navigate into the project directory and run composer 
 
   `php artisan l5-swagger:generate`
 
-  - Documentation link : [link to documentation]([http://localhost:8000/](http://localhost:8000/api/documentation))
+  - Documentation link : [link to documentation](http://localhost:8000/api/documentation)
 
 ## License
 
